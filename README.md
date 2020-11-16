@@ -1,4 +1,5 @@
 > A batteries-included Django starter project. For a production-ready version see the book [Django for Professionals](https://djangoforprofessionals.com).
+Updated by Peter Hecht, in places...
 
 ## 🚀 Features
 
@@ -19,6 +20,7 @@
   * [Pipenv](#pipenv)
   * [Docker](#docker)
 * [Setup](#setup)
+* [Structure](#structure)
 * [Contributing](#contributing)
 * [Support](#support)
 * [License](#license)
@@ -43,6 +45,7 @@ $ source djangox/bin/activate
 (djangox) $ python manage.py createsuperuser
 (djangox) $ python manage.py runserver
 # Load the site at http://127.0.0.1:8000
+# Please add djangox to .gitignore
 ```
 
 ### Pipenv
@@ -90,6 +93,10 @@ INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
 
 # Load the site at http://127.0.0.1:8000
 ```
+
+## Structure
+
+config is the project folder
 
 ----
 
