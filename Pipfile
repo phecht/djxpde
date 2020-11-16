@@ -6,11 +6,11 @@ verify_ssl = true
 [dev-packages]
 
 [packages]
-django = "~=3.1.0"
-django-allauth = "==0.41.0"
-django-crispy-forms = "==1.9.2"
-django-debug-toolbar = "==3.1"
-whitenoise = "==5.2.0"
+django = "*"
+django-allauth  = "*"
+django-crispy-forms  = "*"
+django-debug-toolbar = "*"
+whitenoise = "*"
 
 [requires]
-python_version = "3.8"
+python_version = "*"
