@@ -97,6 +97,17 @@ INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
 ## Structure
 
 config is the project folder
+```
+# Start a new project like this:
+(djxpde) django-admin startapp <appname>
+# Create <appname> folder under templates folder.
+# Add <appname> to config/settings.py
+# Update <appname>/views.py to show something.
+# Make sure you point to the right templates!
+# Update the config/urls.py to have path('<appname>,include(<appname>.urls))
+
+
+```
 
 ----
 
