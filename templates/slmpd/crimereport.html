@@ -1,23 +1,44 @@
-from django.conf import settings
-from django.contrib.auth import get_user_model
-from django.db import models
-from django.urls import reverse
+{% extends '_base.html' %}
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+ 
+}
+</style>
+    <meta charset="utf-8">
+    <title>{% block title %}Crime Reports{% endblock title %}</title>
+</head>
+<body>
 
-
-class crime_category(models.Model):
-    category = models.TextField(max_length=50)
-
-    def __str__(self):
-        return self.category
-
-class crime_neighborhood(models.Model):
-    name = models.TextField(max_length=50)
-    
-    def __str__(self):
-        return self.name
-
-class crime_reports(models.Model):
-    complaint = models.CharField(max_length=9, default='')
+<div class="container">
+    {% block content %}
+    This is the crimes page
+    <table class="table table-striped">
+        <thead>
+            <td>Complaint</td>
+            <td>CodedMonth</td>
+            <td>dateoccur</td>
+            <td>neighborhood</td>
+            
+        </thead>
+        {% for crime in crimereport %}
+            <tr>
+                <td>{{ crime.complaint }}</td>
+                <td>{{ crime.codedmonth }}</td>
+                <td>{{ crime.dateoccur }}</td>
+                <td>{{ crime.neighborhood }}</td>
+                {% comment %} <td><option value="{{ crime.neighborhood.id }}">{{ crime.neighborhood.name }} <option/></td> {% endcomment %}
+            </tr>
+        {% endfor %}
+    </table>
+    {% endblock content %}
+</div>
+</body>
+</html>
+{% comment %} 
+omplaint = models.CharField(max_length=9, default='')
     codedmonth = models.CharField(max_length=7, default='')
     dateoccur = models.CharField(max_length=16, default='')  
     flagcrime = models.CharField(max_length=1, default='')
@@ -41,7 +62,4 @@ class crime_reports(models.Model):
         blank=True)
     category = models.ForeignKey(crime_category, 
         on_delete=models.CASCADE,
-        blank=True)
-    
-    def __str__(self):
-        return self.crimedesc
+        blank=True) {% endcomment %}

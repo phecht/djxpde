@@ -105,7 +105,10 @@ config is the project folder
 # Update <appname>/views.py to show something.
 # Make sure you point to the right templates!
 # Update the config/urls.py to have path('<appname>,include(<appname>.urls))
-
+# Update <appname>/models.py to have a data design 
+# python manage.py makemigrations <appname>
+# python manage.py migrate <appname>
+# Update <appname>/urls for each page.
 
 ```
 

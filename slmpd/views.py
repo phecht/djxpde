@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
+from .models import crime_reports
 
 
 # Create your views here.
@@ -10,4 +11,9 @@ class HomePageViewSlmpd(TemplateView):
 
 class AboutPageViewSlmpd(TemplateView):
     template_name = 'slmpd/about.html'
+
+class CrimeReportPageViewSlmpd(ListView):
+    template_name = 'slmpd/crimereport.html'
+    context_object_name = 'crimereport'
+    model = crime_reports
 
