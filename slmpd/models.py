@@ -7,12 +7,18 @@ from django.urls import reverse
 class crime_category(models.Model):
     category = models.TextField(max_length=50)
 
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.category
 
 class crime_neighborhood(models.Model):
     name = models.TextField(max_length=50)
     
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.name
 
@@ -43,5 +49,8 @@ class crime_reports(models.Model):
         on_delete=models.CASCADE,
         blank=True)
     
+    class Meta:
+        ordering = ['id']
+
     def __str__(self):
         return self.crimedesc

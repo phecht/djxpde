@@ -14,6 +14,7 @@ class AboutPageViewSlmpd(TemplateView):
     template_name = 'slmpd/about.html'
 
 class CrimeReportPageViewSlmpd(ListView):
+    paginate_by = 10
     template_name = 'slmpd/crimereport.html'
     context_object_name = 'crimereport'
     model = crime_reports
