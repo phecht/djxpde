@@ -25,7 +25,7 @@ table, th, td {
         </thead>
         {% for crime in crimereport %}
             <tr>
-                <td>{{ crime.complaint }}</td>
+                <td><a href="{% url 'crime_detail' crime.id %}"</a>{{ crime.complaint }}</td>
                 <td>{{ crime.codedmonth }}</td>
                 <td>{{ crime.dateoccur }}</td>
                 <td>{{ crime.neighborhood }}</td>

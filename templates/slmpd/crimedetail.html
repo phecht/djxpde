@@ -1,0 +1,10 @@
+{% extends '_base.html' %}
+{% block content %}
+<div class="report-entry">
+    <h2>{{ crimedetail.complaint }}</h2>
+    <h3>{{ crimedetail.crimedesc }}</h3>
+  
+    {{ crimedetail.category }}
+</div>
+
+{% endblock content %}
