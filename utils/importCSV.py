@@ -1,7 +1,12 @@
 import sqlite3
 from sqlite3 import Error
 
-# should be run in a folder called utils.  
+# should be run in a folder called utils.
+# A couple of things:
+# 1) You need to run makemigrations and migrate after updating models.
+# 2) You need to get something like sqlitebrowser and import the csv file and name it july2020.
+# 3) You all need to "run" lookups/slmpdata_crime_category.csv 
+
 def sql_connection():
     try:
         conn = sqlite3.connect('../db.sqlite3')
@@ -9,10 +14,12 @@ def sql_connection():
     except Error:
         print(Error)
 
+
 def sql_fetch(conn):
     cursorObj = conn.cursor()
     cursorObj.execute('select * FROM july2020')
     return cursorObj
+
 
 def sql_insert(conn, enties):
     cursorObj = conn.cursor()
@@ -23,11 +30,13 @@ def sql_insert(conn, enties):
     conn.commit()
 # 5+8+7=20
 
+
 def fixnull(field):
     if not field:
         return ' '
     else:
         return field
+
 
 conn = sql_connection()
 inputrows = sql_fetch(conn)
@@ -41,10 +50,10 @@ for inrow in inputrows:
         flagcrime = ' '
     flagunfound = inrow[4]
     if not flagunfound:
-        flagunfound =' '
+        flagunfound = ' '
     flagcadmin = inrow[5]
     if not flagcadmin:
-        flagcadmin=' '
+        flagcadmin = ' '
     count = inrow[6]
     flagcleanup = inrow[7]
     if not flagcleanup:
@@ -57,20 +66,20 @@ for inrow in inputrows:
     district = inrow[9]
     desc = inrow[10]
     ileadaddress = fixnull(inrow[11])
-    ileadstreet = fixnull( inrow[12] )
+    ileadstreet = fixnull(inrow[12])
     neighborhood = inrow[13]
-    locationname = fixnull( inrow[14] )
-    locationcomment = fixnull( inrow[15]) 
-    cadaddress = fixnull( inrow[16] )
-    cadstreet = fixnull( inrow[17] )
+    locationname = fixnull(inrow[14])
+    locationcomment = fixnull(inrow[15])
+    cadaddress = fixnull(inrow[16])
+    cadstreet = fixnull(inrow[17])
     xcord = inrow[18]
-    ycord = inrow[19]    
+    ycord = inrow[19]
     entities = (int(crimecode), int(neighborhood), cadaddress, cadstreet, codedmonth, complaint, crime1, desc, dateoccur, district, flagcadmin,
-        flagcrime, flagunfound, neighborhood, ileadaddress, ileadstreet, locationcomment, locationname, count, xcord, ycord )
+                flagcrime, flagunfound, neighborhood, ileadaddress, ileadstreet, locationcomment, locationname, count, xcord, ycord)
 
-    sql_insert(conn, entities )
+    sql_insert(conn, entities)
     # print(complaint, inrow[1], crimecode, crimeother )
-    print( entities )
+    print(entities)
 
 
 # Raw SQL to import into sqlite

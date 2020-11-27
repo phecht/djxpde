@@ -21,6 +21,7 @@ table, th, td {
             <td>CodedMonth</td>
             <td>dateoccur</td>
             <td>neighborhood</td>
+            <td>category</td>
             
         </thead>
         {% for crime in crimereport %}
@@ -29,7 +30,8 @@ table, th, td {
                 <td>{{ crime.codedmonth }}</td>
                 <td>{{ crime.dateoccur }}</td>
                 <td>{{ crime.neighborhood }}</td>
-                {% comment %} <td><option value="{{ crime.neighborhood.id }}">{{ crime.neighborhood.name }} <option/></td> {% endcomment %}
+                <td>{{ crime.category }}</td>
+
             </tr>
         {% endfor %}
     </table>

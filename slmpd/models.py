@@ -22,6 +22,15 @@ class crime_neighborhood(models.Model):
     def __str__(self):
         return self.name
 
+
+class crManager(models.Manager):
+    ''' crManager over rides base manager to pull related neighbohood and category '''
+    def get_queryset(self):
+        ''' Run the default get_queryset then add category and neighborhood related records '''
+        qs = super().get_queryset()
+        qs = qs.select_related('category')
+        return qs.select_related('neighborhood')
+
 class crime_reports(models.Model):
     complaint = models.CharField(max_length=9, default='')
     codedmonth = models.CharField(max_length=7, default='')
@@ -49,6 +58,9 @@ class crime_reports(models.Model):
         on_delete=models.CASCADE,
         blank=True)
     
+    # This is overriding the default manager. 
+    objectsX = crManager()
+
     class Meta:
         ordering = ['id']
 
