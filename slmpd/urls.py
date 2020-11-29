@@ -4,6 +4,7 @@ from .views import HomePageViewSlmpd, AboutPageViewSlmpd, CrimeReportPageViewSlm
 from .views import CrimeDetailPageViewSlmpd
 
 urlpatterns = [
+    # these become slmpd/<path> i.e local:8080/slmpd/about 
     path('', HomePageViewSlmpd.as_view(), name='slmpdhome'),
     path('about/', AboutPageViewSlmpd.as_view(), name='slmpdabout'),
     path('crime/', CrimeReportPageViewSlmpd.as_view(), name='slmpdcrime'), 

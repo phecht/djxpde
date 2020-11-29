@@ -98,7 +98,7 @@ INTERNAL_IPS = [ip[:-1] + "1" for ip in ips]
 
 config is the project folder
 ```
-# Start a new project like this:
+# Start a new application like this:
 (djxpde) django-admin startapp <appname>
 # Create <appname> folder under templates folder.
 # Add <appname> to config/settings.py
@@ -109,6 +109,8 @@ config is the project folder
 # python manage.py makemigrations <appname>
 # python manage.py migrate <appname>
 # Update <appname>/urls for each page.
+# Futz with the templates/pages home.html to create a link to your app
+
 
 ```
 
