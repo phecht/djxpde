@@ -3,6 +3,11 @@ from django.contrib.auth import get_user_model
 from django.db import models
 from django.urls import reverse
 
+# SELECT n.name, c.category, COUNT(*)
+#	FROM slmpd_crime_neighborhood n, slmpd_crime_category c, slmpd_crime_reports cr
+#	WHERE cr.neighborhood_id = n.id AND cr.category_id = c.id 
+#	GROUP BY n.name, c.category
+
 
 class crime_category(models.Model):
     category = models.TextField(max_length=50)
