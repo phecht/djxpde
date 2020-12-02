@@ -1,0 +1,38 @@
+{% extends '_base.html' %}
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+ 
+}
+</style>
+    <meta charset="utf-8">
+    <title>{% block title %}Neighborhoods{% endblock title %}</title>
+</head>
+<body>
+
+<div class="container">
+    {% block content %}
+    <a href="{% url 'slmpdhome'%}">Back</a>
+ 
+    <table class="table table-striped">
+        <thead>
+            <td>Neighborhood</td>
+            <td>ID</td>
+            <td>Total Crimes</td>
+            
+        </thead>
+        {% for place in neighborhood %}
+            <tr>
+                <td><a href="{% url 'slmpdneighborhood' %}"</a>{{ place.name }}</td>
+                <td>{{ place.id }}</td>
+		<td>{{ place.cc }}</td>
+
+            </tr>
+        {% endfor %}
+    </table>
+    {% endblock content %}
+</div>
+</body>
+</html>
