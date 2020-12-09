@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import crime_category, crime_neighborhood, crime_reports
+from .models import Crime_category, Crime_neighborhood, Crime_reports
 
 # Register your models here.
-admin.site.register(crime_category)
-admin.site.register(crime_neighborhood)
-admin.site.register(crime_reports)
+admin.site.register(Crime_category)
+admin.site.register(Crime_neighborhood)
+admin.site.register(Crime_reports)

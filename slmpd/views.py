@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import TemplateView, ListView
 from django.views.generic import DetailView 
-from .models import crime_reports, crime_neighborhood
+from .models import Crime_reports, Crime_neighborhood
 
 
 # Create your views here.
@@ -20,17 +20,17 @@ class CrimeReportPageViewSlmpd(ListView):
     # paginate_by = 10
     template_name = 'slmpd/crimereport.html'
     context_object_name = 'crimereport'
-    model = crime_reports
+    model = Crime_reports
 
 class CrimeDetailPageViewSlmpd(DetailView):
     template_name = 'slmpd/crimedetail.html'
     context_object_name = 'crimedetail'
-    model = crime_reports
+    model = Crime_reports
 
 # Neighborhood views
 
 class NeighborhoodPageViewSlmpd(ListView):
     template_name = 'slmpd/neighborhood.html'
     context_object_name = 'neighborhood'
-    model = crime_neighborhood
-
+    model = Crime_neighborhood
+    

@@ -5,56 +5,71 @@ from django.db.models import Count
 from django.urls import reverse
 
 # SELECT n.name, c.category, COUNT(*)
-#	FROM slmpd_crime_neighborhood n, slmpd_crime_category c, slmpd_crime_reports cr
+#	FROM slmpd_Crime_neighborhood n, slmpd_Crime_category c, slmpd_Crime_reports cr
 #	WHERE cr.neighborhood_id = n.id AND cr.category_id = c.id 
 #	GROUP BY n.name, c.category
 # SELECT n.id, n.name, c.id as catid, c.category, COUNT(*) as crimecounttotal 
-#                 FROM slmpd_crime_neighborhood n, slmpd_crime_category c, slmpd_crime_reports cr  
+#                 FROM slmpd_Crime_neighborhood n, slmpd_Crime_category c, slmpd_Crime_reports cr  
 #                 WHERE cr.neighborhood_id = n.id AND cr.category_id = c.id  
 #                 GROUP BY n.name, c.id
 # 				ORDER BY n.id, c.id
+# SELECT cr.id, cr.codedmonth, cr.neighborhood_id, cr.category_id, count(*) as ctotal 
+# from slmpd_Crime_reports cr
+# GROUP BY cr.neighborhood_id, cr.category_id
+# ORDER BY cr.neighborhood_id, cr.category_id
 ##
 # This worked on my machine. Name, Crimes/Name
-# cn = crime_neighborhood.objects.values('name').annotate(cc=Count('crime_reports'))
-
-
-class crime_category(models.Model):
+# cn = Crime_neighborhood.objects.values('name').annotate(cc=Count('Crime_reports'))
+# In python manage.py shell
+""" 
+from django.db.models import Count, Avg, Q
+from slmpd.models import Crime_reports, Crime_neighborhood, Crime_category
+cn = Crime_neighborhood.crimecounts.all()
+ """
+ 
+class Crime_category(models.Model):
     category = models.TextField(max_length=50)
 
+    objects = models.Manager()
     class Meta:
         ordering = ['id']
 
     def __str__(self):
         return self.category
 
-class neCrimeCountManager(models.Manager):
-    '''  '''
-    def get_queryset(self):
-        qs = super().get_queryset()
 
+class NeCrimeCountManager(models.Manager):
+    ''' Adds the crime count per neighborhood  '''
+    def get_queryset(self):
+        # Create the queryset  
+        qs = super().get_queryset()
+        # Annotate queryset with crime counts per neighborhood called cc,
+        # then return it
         return qs.annotate(cc=Count("crime_reports")) 
 
-class crime_neighborhood(models.Model):
+class Crime_neighborhood(models.Model):
     name = models.TextField(max_length=50)
     
     class Meta:
         ordering = ['id']
 
-    objectsX = neCrimeCountManager()
-
+    objects_crimecounts = NeCrimeCountManager()
+    objectsX = models.Manager()
+    
+    
+    
     def __str__(self):
         return self.name
 
 
-class crManager(models.Manager):
+class CrManager(models.Manager):
     ''' crManager overrides base manager to pull related neighbohood and category '''
     def get_queryset(self):
         ''' Run the default get_queryset then add category and neighborhood related records '''
         qs = super().get_queryset()
-        # qs = qs.select_related('category')
         return qs.select_related('category','neighborhood')
 
-class crime_reports(models.Model):
+class Crime_reports(models.Model):
     complaint = models.CharField(max_length=9, default='')
     codedmonth = models.CharField(max_length=7, default='')
     dateoccur = models.CharField(max_length=16, default='')  
@@ -74,15 +89,16 @@ class crime_reports(models.Model):
     cadstreet =  models.TextField(max_length=50, default='')
     xcoord = models.FloatField(default=0)
     ycoord = models.FloatField(default=0)
-    neighborhood = models.ForeignKey(crime_neighborhood, 
+    neighborhood = models.ForeignKey(Crime_neighborhood, 
         on_delete=models.CASCADE,
         blank=True)
-    category = models.ForeignKey(crime_category, 
+    category = models.ForeignKey(Crime_category, 
         on_delete=models.CASCADE,
         blank=True)
     
+
     # This is overriding the default manager. 
-    objectsX = crManager()
+    objects = CrManager()
 
     class Meta:
         ordering = ['id']
