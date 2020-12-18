@@ -1,0 +1,44 @@
+{% extends '_base.html' %}
+<html>
+<head>
+<style>
+table, th, td {
+  border: 1px solid black;
+ 
+}
+</style>
+    <meta charset="utf-8">
+    <title>{% block title %}Neighborhoods Crimes{% endblock title %}</title>
+</head>
+<body>
+
+<div class="container">
+    {% block content %}
+    <a href="{% url 'slmpdhome'%}">Back</a>
+ 
+    <table class="table table-striped">
+        <thead>
+            <td>{{ neighborhoods }}</td>
+            <td>Compalint</td>
+            <td>Code Month</td>
+            <td>Category</td>
+            
+        </thead>
+  {% for crime in neighborhoods.crime_reports_set.all %}
+            <tr>
+                <td></td>
+                <td>{{ crime.complaint }}</td>
+		        <td>{{ crime.codedmonth}}</td>
+                <td>{{ crime.category}}</td>
+
+            </tr>
+            {% endfor %}
+
+
+    {% endblock content %}
+    </table>
+
+
+</div>
+</body>
+</html>

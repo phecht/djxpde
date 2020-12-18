@@ -8,7 +8,7 @@ table, th, td {
 }
 </style>
     <meta charset="utf-8">
-    <title>{% block title %}Neighborhoods{% endblock title %}</title>
+    <title>{% block title %}Neighborhoods Crimes{% endblock title %}</title>
 </head>
 <body>
 
@@ -23,11 +23,12 @@ table, th, td {
             <td>Total Crimes</td>
             
         </thead>
-        {% for place in neighborhood %}
+        {% for crime in crimes %}
             <tr>
-                <td><a href="{% url 'slmpdneighborhood' %}detail/{{place.id}}"</a>{{ place.name }}</td>
-                <td>{{ place.id }}</td>
-		        <td>{{ place.cc }}</td>
+                
+                <td>{{ crime.complaint }}</td>
+		        <td>{{ crime.codedmonth}}</td>
+                <td>{{ crime.neighborhood_id}}</td>
 
             </tr>
         {% endfor %}

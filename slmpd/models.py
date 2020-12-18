@@ -24,13 +24,23 @@ from django.urls import reverse
 """ 
 from django.db.models import Count, Avg, Q
 from slmpd.models import Crime_reports, Crime_neighborhood, Crime_category
+cn = Crime_neighborhood.objects.all()
+for nx in cn:
+    print( nx.id )
+    for nx2 in nx.crime_reports_set.all():
+        print( nx2.complaint, nx2.rcount, nx.name )
+
+I don't below works anymore
 cn = Crime_neighborhood.crimecounts.all()
+nc = Crime_reports.objects.all().filter(neighborhood_id__exact= 17 )
+super(NeReportByHood, self).get_query_set().filter(neighborhood_id__exact=my_date) 
+{% for book in author.book_set.all %}
  """
  
 class Crime_category(models.Model):
     category = models.TextField(max_length=50)
 
-    objects = models.Manager()
+    # objects = models.Manager()
     class Meta:
         ordering = ['id']
 
@@ -47,6 +57,13 @@ class NeCrimeCountManager(models.Manager):
         # then return it
         return qs.annotate(cc=Count("crime_reports")) 
 
+class NeReportByHood(models.Manager):
+    def get_queryset(self, hood):
+        return super(NeReportByHood, self).get_query_set() \
+            .filter(neighborhood_id__exact=hood) 
+
+
+
 class Crime_neighborhood(models.Model):
     name = models.TextField(max_length=50)
     
@@ -54,10 +71,13 @@ class Crime_neighborhood(models.Model):
         ordering = ['id']
 
     objects_crimecounts = NeCrimeCountManager()
-    objectsX = models.Manager()
+    # objects_byhood = NeReportByHood()
+    # objects = models.Manager()
     
-    
-    
+    def get_absolute_url(self):
+        """Returns the url to access a particular neighborhood instance."""
+        return reverse('ne-detail', args=[str(self.id)])
+  
     def __str__(self):
         return self.name
 
