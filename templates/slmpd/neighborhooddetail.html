@@ -19,24 +19,51 @@ table, th, td {
     <table class="table table-striped">
         <thead>
             <td>{{ neighborhoods }}</td>
-            <td>Compalint</td>
+            <td>Complaint</td>
             <td>Code Month</td>
             <td>Category</td>
             
         </thead>
-  {% for crime in neighborhoods.crime_reports_set.all %}
+        {% regroup neighborhoods.crime_reports_set.all by category  as crime_list %}
+  {% comment %} {% for crime in neighborhoods.crime_reports_set.all %} {% endcomment %}
+  
+    {% for crimecat in crime_list %}
             <tr>
-                <td></td>
-                <td>{{ crime.complaint }}</td>
-		        <td>{{ crime.codedmonth}}</td>
-                <td>{{ crime.category}}</td>
-
+                <td>GROUPER: {{ crimecat.grouper }}</td>
             </tr>
-            {% endfor %}
+                {% for crime in crimecat.list %}
+            <tr>
+                    <td>CRIME:{{ crime }}</td>
+                    <td>{{ crime.complaint }}</td>
+                    <td>{{ crime.codedmonth}}</td>
+                    <td>{{ crime.category}}</td>
+            </tr>       
+                {% endfor %}
+           
 
+
+
+    {% endfor %}
+    <table class="table table-striped">
+        <thead>
+            <td>{{ neighborhoods }}</td>
+            <td>Complaint</td>
+            <td>Code Month</td>
+            <td>Category</td>
+            
+        </thead>
+        {% for crime in neighborhoods.crime_reports_set.all %}
+            
+                <tr>
+                        <td>CRIME:{{ crime }}</td>
+                        <td>{{ crime.complaint }}</td>
+                        <td>{{ crime.codedmonth}}</td>
+                        <td>{{ crime.category}}</td>
+                </tr>       
+        {% endfor %}
+    </table>
 
     {% endblock content %}
-    </table>
 
 
 </div>

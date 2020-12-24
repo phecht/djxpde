@@ -38,17 +38,8 @@ class NeighborhoodDetailPageViewSlmpd(DetailView):
     template_name = 'slmpd/neighborhooddetail.html'
     context_object_name = 'neighborhoods'
     model = Crime_neighborhood
+    def get_queryset(self):
+        qs = super().get_queryset()
+        #qs.order_by("crime_reports.crimecode")
+        return super().get_queryset().order_by("crime_reports.crimecode")
 
-def ne_detail(request):
-    nc = Crime_reports.objects.all()
-    return render(request, 'slmpd/nedetail.html',{'crimes': nc})
-
-class NeCrime(View):
-    """
-    A function view that will display all crime reports for a specific key
-    key is neighborhood id.
-    """
-    def get(self, request, key):
-        nc = Crime_reports.objects.filter(neighborhood_id__exact = key )
-        hood = Crime_neighborhood.objects.filter(id__exact = key)
-        return render(request, 'slmpd/nedetail.html', { 'crimes': nc, 'hood': hood})
