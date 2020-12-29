@@ -4,26 +4,33 @@ from django.db import models
 from django.db.models import Count
 from django.urls import reverse
 
-# SELECT n.name, c.category, COUNT(*)
-#	FROM slmpd_Crime_neighborhood n, slmpd_Crime_category c, slmpd_Crime_reports cr
-#	WHERE cr.neighborhood_id = n.id AND cr.category_id = c.id 
-#	GROUP BY n.name, c.category
-# SELECT n.id, n.name, c.id as catid, c.category, COUNT(*) as crimecounttotal 
-#                 FROM slmpd_Crime_neighborhood n, slmpd_Crime_category c, slmpd_Crime_reports cr  
-#                 WHERE cr.neighborhood_id = n.id AND cr.category_id = c.id  
-#                 GROUP BY n.name, c.id
-# 				ORDER BY n.id, c.id
-# SELECT cr.id, cr.codedmonth, cr.neighborhood_id, cr.category_id, count(*) as ctotal 
-# from slmpd_Crime_reports cr
-# GROUP BY cr.neighborhood_id, cr.category_id
-# ORDER BY cr.neighborhood_id, cr.category_id
-##
-# This worked on my machine. Name, Crimes/Name
-# cn = Crime_neighborhood.objects.values('name').annotate(cc=Count('Crime_reports'))
-# In python manage.py shell
+""" 
+SELECT n.name, c.category, COUNT(*)
+	FROM slmpd_Crime_neighborhood n, slmpd_Crime_category c, slmpd_Crime_reports cr
+	WHERE cr.neighborhood_id = n.id AND cr.category_id = c.id 
+	GROUP BY n.name, c.category
+SELECT n.id, n.name, c.id as catid, c.category, COUNT(*) as crimecounttotal 
+                FROM slmpd_Crime_neighborhood n, slmpd_Crime_category c, slmpd_Crime_reports cr  
+                WHERE cr.neighborhood_id = n.id AND cr.category_id = c.id  
+                GROUP BY n.name, c.id
+				ORDER BY n.name, c.id
+SELECT cr.id, cr.codedmonth, cr.neighborhood_id, cr.category_id, count(*) as ctotal 
+from slmpd_Crime_reports cr
+GROUP BY cr.neighborhood_id, cr.category_id
+ORDER BY cr.neighborhood_id, cr.category_id
+#
+This worked on my machine. Name, Crimes/Name
+cn = Crime_neighborhood.objects.values('name').annotate(cc=Count('Crime_reports'))
+In python manage.py shell
+ """
 """ 
 from django.db.models import Count, Avg, Q
 from slmpd.models import Crime_reports, Crime_neighborhood, Crime_category
+
+cn = Crime_neighborhood.objects.all()
+cn1 = n1.crime_reports_set.order_by('crimecode')
+n1 =cn[0]
+
 cn = Crime_neighborhood.objects.all()
 for nx in cn:
     print( nx.id )
@@ -72,11 +79,11 @@ class Crime_neighborhood(models.Model):
 
     objects_crimecounts = NeCrimeCountManager()
     # objects_byhood = NeReportByHood()
-    # objects = models.Manager()
+    objects = models.Manager()
     
-    def get_absolute_url(self):
-        """Returns the url to access a particular neighborhood instance."""
-        return reverse('ne-detail', args=[str(self.id)])
+#    def get_absolute_url(self):
+#        """Returns the url to access a particular neighborhood instance."""
+#        return reverse('ne-detail', args=[str(self.id)])
   
     def __str__(self):
         return self.name
@@ -121,7 +128,7 @@ class Crime_reports(models.Model):
     objects = CrManager()
 
     class Meta:
-        ordering = ['id']
+        ordering = ['crimecode','id']
 
     def __str__(self):
         return self.crimedesc
