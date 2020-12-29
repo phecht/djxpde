@@ -14,8 +14,11 @@ table, th, td {
 
 <div class="container">
     {% block content %}
-    <a href="{% url 'slmpdhome'%}">Back</a>
+    {% comment %} {% debug  %} {% endcomment %}
+
+    <a href="{% url 'slmpdneighborhood'%}">Back</a>
  
+
     <table class="table table-striped">
         <thead>
             <td>{{ neighborhoods }}</td>
@@ -24,43 +27,22 @@ table, th, td {
             <td>Category</td>
             
         </thead>
-        {% regroup neighborhoods.crime_reports_set.all by category  as crime_list %}
-  {% comment %} {% for crime in neighborhoods.crime_reports_set.all %} {% endcomment %}
-  
-    {% for crimecat in crime_list %}
-            <tr>
-                <td>GROUPER: {{ crimecat.grouper }}</td>
-            </tr>
-                {% for crime in crimecat.list %}
-            <tr>
-                    <td>CRIME:{{ crime }}</td>
-                    <td>{{ crime.complaint }}</td>
-                    <td>{{ crime.codedmonth}}</td>
-                    <td>{{ crime.category}}</td>
-            </tr>       
-                {% endfor %}
-           
+        {% comment %} {% for crime in neighborhoods.crime_reports_set.all %} {% endcomment %}
+{% regroup neighborhoods.crime_reports_set.all by category  as crime_list %}
 
-
-
-    {% endfor %}
-    <table class="table table-striped">
-        <thead>
-            <td>{{ neighborhoods }}</td>
-            <td>Complaint</td>
-            <td>Code Month</td>
-            <td>Category</td>
-            
-        </thead>
-        {% for crime in neighborhoods.crime_reports_set.all %}
-            
+{% for crimecat in crime_list %}
+    <tr>
+    <td>Category: {{crimecat.grouper  }}</td>
+    </tr>
+        {% for crime in crimecat.list %}
                 <tr>
-                        <td>CRIME:{{ crime }}</td>
+                        <td>{{ forloop.counter }} {{ crime }}</td>
                         <td>{{ crime.complaint }}</td>
                         <td>{{ crime.codedmonth}}</td>
                         <td>{{ crime.category}}</td>
                 </tr>       
         {% endfor %}
+{% endfor %}
     </table>
 
     {% endblock content %}
